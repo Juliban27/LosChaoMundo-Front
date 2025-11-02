@@ -1,8 +1,12 @@
-import './App.css'
-import AppRouter from './routes/AppRouter'
+// frontend/src/main.jsx (CÓDIGO CORREGIDO)
 
-function App() {
-  return <AppRouter />
-}
+import React from 'react'
+import ReactDOM from 'react-dom/client'
+import AppRouter from './AppRouter.jsx' // 👈 Importa tu router
+import './index.css'                      // Importa tus estilos globales
 
-export default App
+ReactDOM.createRoot(document.getElementById('root')).render(
+  <React>
+    <AppRouter /> {/* 👈 Renderiza tu router */}
+  </React>,
+)
