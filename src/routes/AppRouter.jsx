@@ -21,12 +21,14 @@ import { ProtectedRoute } from "../components/ProtectedRoute";
 import Login from "../pages/Login";
 
 
+import Register from "../pages/Register";
+
 export default function AppRouter() {
     return (
         <Router>
             <Routes>
                 {/* Ruta pública */}
-                <Route path="/" element={<Login />} />
+                <Route path="/" element={<Register />} />
 
             
                 {/* --- Rutas Admin Ingeniero --- */}
