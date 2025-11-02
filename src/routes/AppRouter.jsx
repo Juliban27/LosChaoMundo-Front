@@ -23,6 +23,7 @@ import Profile from "../pages/Profile";
 import Register from "../pages/Register";
 import Homes from "../pages/Homes";
 import Rewards from "../pages/Rewards";
+import AdminHome from "../pages/AdminHome";
 import Historia from "../pages/Historia";
 import Notificaciones from "../pages/Notificaciones";
 
@@ -70,7 +71,7 @@ function AnimatedRoutes() {
         <Route path="/rewards" element={<PageTransition><Rewards /></PageTransition>} />
         <Route path="/profile" element={<PageTransition><Profile /></PageTransition>} />
         <Route path="/notificaciones" element={<PageTransition><Notificaciones /></PageTransition>} />
-
+        <Route path="/adminHome" element={<PageTransition><AdminHome /></PageTransition>} />
         {/* --- Rutas Admin Ingeniero --- */}
         {/* <Route path="/admin">
           <Route 
