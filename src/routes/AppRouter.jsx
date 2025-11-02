@@ -26,12 +26,11 @@ import Rewards from "../pages/Rewards";
 import AdminHome from "../pages/AdminHome";
 import Historia from "../pages/Historia";
 import Notificaciones from "../pages/Notificaciones";
+import NotificacionesAdmin from "../pages/NotificacionesAdmin";
 
-// 👇 Agregados (sin tocar tus imports existentes)
 import { useLocation } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
 
-// Variantes para transiciones de página
 const pageVariants = {
   initial: { opacity: 0, y: 12, filter: "blur(2px)" },
   animate: { opacity: 1, y: 0, filter: "blur(0px)" },
@@ -72,6 +71,7 @@ function AnimatedRoutes() {
         <Route path="/profile" element={<PageTransition><Profile /></PageTransition>} />
         <Route path="/notificaciones" element={<PageTransition><Notificaciones /></PageTransition>} />
         <Route path="/adminHome" element={<PageTransition><AdminHome /></PageTransition>} />
+        <Route path="/notificacionesAdmin" element={<PageTransition><NotificacionesAdmin /></PageTransition>} />
         {/* --- Rutas Admin Ingeniero --- */}
         {/* <Route path="/admin">
           <Route 
