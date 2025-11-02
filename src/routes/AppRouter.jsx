@@ -18,7 +18,8 @@ import { ProtectedRoute } from "../components/ProtectedRoute";
 // import PerfilUsuario from "../pages/usuario/PerfilUsuario";
 // import Soporte from "../pages/usuario/Soporte";
 
-// import Login from "../pages/Login";
+import Login from "../pages/Login";
+
 
 export default function AppRouter() {
     return (
@@ -27,8 +28,9 @@ export default function AppRouter() {
                 {/* Ruta pública */}
                 <Route path="/" element={<Login />} />
 
+            
                 {/* --- Rutas Admin Ingeniero --- */}
-                <Route path="/admin">
+                {/* <Route path="/admin">
                     <Route 
                         index 
                         element={
@@ -53,10 +55,10 @@ export default function AppRouter() {
                             </ProtectedRoute>
                         } 
                     />
-                </Route>
+                </Route> */}
 
                 {/* --- Rutas Administrativo de la empresa --- */}
-                <Route path="/administrativo">
+                {/* <Route path="/administrativo">
                     <Route 
                         index 
                         element={
@@ -81,10 +83,10 @@ export default function AppRouter() {
                             </ProtectedRoute>
                         } 
                     />
-                </Route>
+                </Route> */}
 
                 {/* --- Rutas Cajero --- */}
-                <Route path="/cajero">
+                {/* <Route path="/cajero">
                     <Route 
                         index 
                         element={
@@ -109,10 +111,10 @@ export default function AppRouter() {
                             </ProtectedRoute>
                         } 
                     />
-                </Route>
+                </Route> */}
 
                 {/* --- Rutas Usuario --- */}
-                <Route path="/usuario">
+                {/* <Route path="/usuario">
                     <Route 
                         index 
                         element={
@@ -137,7 +139,8 @@ export default function AppRouter() {
                             </ProtectedRoute>
                         } 
                     />
-                </Route>
+                </Route> */}
+                    
 
                 {/* Redirección si no existe la ruta */}
                 <Route path="*" element={<Navigate to="/" replace />} />
