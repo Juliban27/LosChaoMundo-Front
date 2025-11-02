@@ -19,7 +19,7 @@ import { ProtectedRoute } from "../components/ProtectedRoute";
 // import Soporte from "../pages/usuario/Soporte";
 
 import Login from "../pages/Login";
-
+import Profile from "../pages/Profile";
 
 import Register from "../pages/Register";
 import Home from "../pages/Homes";
@@ -32,6 +32,8 @@ export default function AppRouter() {
                 <Route path="/" element={<Register />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/Home" element={<Home />} />
+                <Route path="/profile" element={<Profile />} />
+
             
                 {/* --- Rutas Admin Ingeniero --- */}
                 {/* <Route path="/admin">
