@@ -25,8 +25,12 @@ import Register from "../pages/Register";
 import Home from "../pages/Homes";
 import Rewards from "../pages/Rewards";
 import AdminHome from "../pages/AdminHome";
+<<<<<<< HEAD
 import DetailTienda from "../pages/DetailTienda";
 
+=======
+import Historia from "../pages/Historia";
+>>>>>>> 1eaf9bea1ef0104598146b8b3e97b17d76c2f656
 export default function AppRouter() {
     return (
         <Router>
@@ -37,8 +41,15 @@ export default function AppRouter() {
                 <Route path="/Home" element={<Home />} />
                 <Route path="/Rewards" element={<Rewards />} />
                 <Route path="/profile" element={<Profile />} />
+
                 <Route path="/AdminHome" element={<AdminHome />} />
+<<<<<<< HEAD
                 <Route path="/detailtienda" element={<DetailTienda />} />
+=======
+
+                <Route path="/Historia" element={<Historia />} />
+
+>>>>>>> 1eaf9bea1ef0104598146b8b3e97b17d76c2f656
             
                 {/* --- Rutas Admin Ingeniero --- */}
                 {/* <Route path="/admin">
