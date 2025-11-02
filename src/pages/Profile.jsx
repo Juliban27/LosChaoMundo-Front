@@ -65,9 +65,6 @@ export default function Profile() {
     "peer w-full rounded-xl border border-primary-200 bg-white px-4 py-3.5 text-sm outline-none ring-0 transition-all duration-200 focus:border-primary-500 focus:bg-white focus:outline-none focus:ring-4 focus:ring-primary-100 placeholder:text-primary-400 hover:border-primary-300";
   const labelBase = "text-xs font-semibold text-secondary uppercase tracking-wide";
 
-  // Determinar si el botón está habilitado
-  const isButtonEnabled = dirty && !saving;
-
   return (
     <main className="min-h-dvh w-full bg-gradient-to-br from-primary-50 via-white to-primary-50/30">
       <div className="mx-auto w-full max-w-md px-4 py-8 sm:py-12">
@@ -199,9 +196,9 @@ export default function Profile() {
 
               <button
                 type="submit"
-                disabled={!isButtonEnabled}
+                disabled={!dirty || saving}
                 className={`flex-1 rounded-xl px-4 py-3.5 text-sm font-bold shadow-lg transition-all duration-200 focus:outline-none focus:ring-4 ${
-                  isButtonEnabled
+                  dirty && !saving
                     ? "bg-gradient-to-r from-primary-600 to-primary-700 text-white hover:from-primary-700 hover:to-primary-800 focus:ring-primary-200 border-2 border-primary-700 transform hover:scale-[1.02]"
                     : "bg-gray-200 text-gray-500 border-2 border-gray-300 cursor-not-allowed focus:ring-transparent"
                 }`}
