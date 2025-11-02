@@ -36,12 +36,12 @@ export default function Historial() {
       { id: "F018", emisor: "Clínica OdontoCare",          fecha: "2025-10-01T15:40:00Z", monto: 350000, numero: "FE-2025-501" },
       { id: "F019", emisor: "Transporte Urbano S.A.",     fecha: "2025-10-15T07:15:00Z", monto: 38000,  numero: "FE-2025-528" },
       { id: "F020", emisor: "Tienda Digital Byte",        fecha: "2025-10-28T17:55:00Z", monto: 1250000,numero: "FE-2025-549" },
-      // Ejemplos cercanos a hoy (noviembre 2025)
       { id: "F021", emisor: "Cine Plaza",                 fecha: "2025-11-01T22:10:00Z", monto: 64000,  numero: "FE-2025-560" },
       { id: "F022", emisor: "Supermercado Central",       fecha: "2025-11-02T09:35:00Z", monto: 192000, numero: "FE-2025-566" },
     ],
     []
   );
+
   const [activeTab, setActiveTab] = useState('Historial');
   // Filtro por período
   const [periodo, setPeriodo] = useState("30"); // 30 | 90 | year | all
