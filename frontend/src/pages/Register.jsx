@@ -97,15 +97,22 @@ export default function Register() {
         setSubmitError('');
 
         if (Object.keys(newErrors).length === 0) {
+
+            // ===========================================
+            // 👇 AQUÍ ESTÁ LA CORRECCIÓN IMPORTANTE
+            // ===========================================
             const jsonData = {
-                nombre: formData.nombre,
-                correo: formData.correo,
+                first_name: formData.nombre,       // Nombre corregido
+                email: formData.correo,          // Nombre corregido
                 password: formData.contrasena,
                 tipo_documento: formData.tipoDocumento,
                 numero_documento: formData.numeroIdentificacion,
                 direccion: formData.direccion,
                 telefono: formData.telefono,
             };
+            // ===========================================
+            // 👆 FIN DE LA CORRECCIÓN
+            // ===========================================
 
             try {
                 const res = await fetch("http://127.0.0.1:8000/api/usuarios/", {
@@ -119,8 +126,14 @@ export default function Register() {
                 if (!res.ok) {
                     if (data.error) {
                         setSubmitError(data.error);
-                    } else {
+                    } else if (data.numero_documento) {
+                         setSubmitError("El número de documento ya está registrado.");
+                    } else if (data.username) {
+                         setSubmitError("Error de usuario (username duplicado).");
+                    }
+                     else {
                         setSubmitError("❌ Error al registrar. Verifica los datos.");
+                        console.log("Error del backend:", data);
                     }
                     return;
                 }
@@ -271,15 +284,18 @@ export default function Register() {
                                         name={field.name}
                                         value={formData[field.name]}
                                         onChange={handleChange}
-                                        className={`w-full pl-11 pr-4 py-3 rounded-lg border bg-[#e0edff] transition-all duration-200 focus:ring-2 focus:ring-[#1d4ed8]/60 ${
+                                        className={`w-full pl-10 pr-4 py-3 bg-white border ${
                                             errors[field.name]
-                                                ? 'border-red-300 focus:ring-red-500'
-                                                : 'border-[#b2c9ff]'
-                                        }`}
+                                                ? 'border-red-400'
+                                                : 'border-gray-200'
+                                        } rounded-lg text-gray-800 focus:outline-none focus:ring-2 focus:ring-[#1d4ed8]/50 transition duration-200`}
                                     >
-                                        {field.options.map((opt) => (
-                                            <option key={opt.value} value={opt.value}>
-                                                {opt.label}
+                                        {field.options.map((option) => (
+                                            <option
+                                                key={option.value}
+                                                value={option.value}
+                                            >
+                                                {option.label}
                                             </option>
                                         ))}
                                     </select>
@@ -287,20 +303,22 @@ export default function Register() {
                                     <input
                                         type={field.type}
                                         name={field.name}
+                                        placeholder={field.placeholder}
                                         value={formData[field.name]}
                                         onChange={handleChange}
-                                        placeholder={field.placeholder}
-                                        className={`w-full pl-11 pr-12 py-3 rounded-lg border transition-all duration-200 focus:ring-2 focus:ring-[#1d4ed8]/60 ${
+                                        className={`w-full pl-10 pr-4 py-3 bg-white border ${
                                             errors[field.name]
-                                                ? 'border-red-300 focus:ring-red-500'
-                                                : 'border-[#b2c9ff]'
-                                        }`}
+                                                ? 'border-red-400'
+                                                : 'border-gray-200'
+                                        } rounded-lg text-gray-800 focus:outline-none focus:ring-2 focus:ring-[#1d4ed8]/50 transition duration-200`}
                                     />
                                 )}
                                 {field.showPasswordToggle && (
                                     <button
                                         type="button"
-                                        onClick={() => setShowPassword(!showPassword)}
+                                        onClick={() =>
+                                            setShowPassword(!showPassword)
+                                        }
                                         className="absolute right-3 top-1/2 -translate-y-1/2 text-[#1d4ed8]/60 hover:text-[#1d4ed8]"
                                     >
                                         {showPassword ? (
@@ -312,35 +330,36 @@ export default function Register() {
                                 )}
                             </div>
                             {errors[field.name] && (
-                                <p className="mt-1 text-sm text-red-600 flex items-center gap-1">
-                                    <AlertCircle className="w-4 h-4" />
+                                <p className="mt-1 text-xs text-red-600 font-medium">
                                     {errors[field.name]}
                                 </p>
                             )}
                         </div>
                     ))}
 
-                    <button
-                        type="submit"
-                        className="w-full mt-6 bg-[#1d4ed8] hover:bg-[#150063] text-white font-semibold py-3 rounded-xl shadow-lg hover:shadow-xl transition-all focus:ring-2 focus:ring-[#9ec5ff]/70"
-                    >
-                        Registrarse
-                    </button>
+                    {/* Botón de Submit */}
+                    <div className="pt-4">
+                        <motion.button
+                            type="submit"
+                            className="w-full bg-gradient-to-r from-[#1d4ed8] to-[#3b82f6] text-white font-bold py-3 px-6 rounded-lg shadow-lg hover:shadow-xl focus:outline-none focus:ring-4 focus:ring-[#1d4ed8]/50 transition-all duration-300 ease-in-out"
+                            whileHover={{ scale: 1.03 }}
+                            whileTap={{ scale: 0.98 }}
+                        >
+                            Registrarse
+                        </motion.button>
+                    </div>
 
-                    <p className="text-center text-sm text-[#1d4ed8]/80 mt-4">
-                        ¿Ya tienes cuenta?{' '}
+                    {/* Link a Login */}
+                    <p className="text-center text-sm text-[#150063]/80 pt-3">
+                        ¿Ya tienes una cuenta?{' '}
                         <a
                             href="/login"
-                            className="font-medium text-[#150063] hover:underline"
+                            className="font-bold text-[#1d4ed8] hover:underline"
                         >
-                            Inicia sesión
+                            Inicia Sesión
                         </a>
                     </p>
                 </form>
-
-                <p className="text-center text-xs text-[#1d4ed8]/70 mt-6">
-                    Al registrarte, aceptas nuestros términos y condiciones
-                </p>
             </div>
         </div>
     );
