@@ -5,10 +5,31 @@ export default function LoginPage() {
   const [documento, setDocumento] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
+  const [resultado, setResultado] = useState(null); // 🔹 nuevo estado para mostrar respuesta
 
-  const handleSubmit = () => {
-    console.log('Login attempt:', { documento, password });
-    // Aquí iría la lógica de autenticación
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      const response = await fetch("http://localhost:8000/api/login/", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ documento, password }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        setResultado({ tipo: "ok", mensaje: data.message });
+      } else {
+        setResultado({ tipo: "error", mensaje: data.message });
+      }
+    } catch (error) {
+      setResultado({ tipo: "error", mensaje: "No se pudo conectar con el servidor 😢" });
+      console.error(error);
+    }
   };
 
   return (
@@ -25,7 +46,7 @@ export default function LoginPage() {
           </div>
 
           {/* Formulario */}
-          <div className="space-y-6">
+          <form onSubmit={handleSubmit} className="space-y-6">
             {/* Campo de documento */}
             <div>
               <label htmlFor="documento" className="block text-sm font-medium text-gray-700 mb-2">
@@ -81,21 +102,34 @@ export default function LoginPage() {
 
             {/* Botón de ingreso */}
             <button
-              onClick={handleSubmit}
+              type="submit"
               className="w-full bg-indigo-600 text-white py-3 rounded-lg font-medium hover:bg-indigo-700 active:bg-indigo-800 transition duration-200 shadow-lg hover:shadow-xl"
             >
               Ingresar
             </button>
+          </form>
 
-            {/* Olvidaste tu contraseña */}
-            <div className="text-center">
-              <button
-                onClick={() => console.log('Recuperar contraseña')}
-                className="text-sm text-indigo-600 hover:text-indigo-800 font-medium"
-              >
-                ¿Olvidaste tu contraseña?
-              </button>
+          {/* 🔹 Resultado visual */}
+          {resultado && (
+            <div
+              className={`mt-6 p-3 rounded-lg text-center font-medium ${
+                resultado.tipo === "ok"
+                  ? "bg-green-100 text-green-800 border border-green-400"
+                  : "bg-red-100 text-red-800 border border-red-400"
+              }`}
+            >
+              {resultado.mensaje}
             </div>
+          )}
+
+          {/* Olvidaste tu contraseña */}
+          <div className="text-center mt-4">
+            <button
+              onClick={() => console.log('Recuperar contraseña')}
+              className="text-sm text-indigo-600 hover:text-indigo-800 font-medium"
+            >
+              ¿Olvidaste tu contraseña?
+            </button>
           </div>
         </div>
 
