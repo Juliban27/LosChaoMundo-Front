@@ -7,7 +7,7 @@ import { ProtectedRoute } from "../components/ProtectedRoute";
 // --- Páginas principales ---
 import Login from "../pages/Login";
 import Register from "../pages/Register";
-import Homes from "../pages/Homes";
+import Home from "../pages/Homes";
 import Rewards from "../pages/Rewards";
 import Profile from "../pages/Profile";
 import Historia from "../pages/Historia";
@@ -55,7 +55,7 @@ function AnimatedRoutes() {
         <Route path="/register" element={<PageTransition><Register /></PageTransition>} />
 
         {/* --- RUTAS DE USUARIO --- */}
-        <Route path="/homes" element={<PageTransition><Homes /></PageTransition>} />
+        <Route path="/home" element={<PageTransition><Home /></PageTransition>} />
         <Route path="/rewards" element={<PageTransition><Rewards /></PageTransition>} />
         <Route path="/profile" element={<PageTransition><Profile /></PageTransition>} />
         <Route path="/historia" element={<PageTransition><Historia /></PageTransition>} />
