@@ -1,4 +1,7 @@
+// frontend/src/pages/Register.jsx
+
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom'; // 👈 Importa useNavigate
 import {
     User,
     Mail,
@@ -28,6 +31,8 @@ export default function Register() {
     const [showPassword, setShowPassword] = useState(false);
     const [submitSuccess, setSubmitSuccess] = useState(false);
     const [submitError, setSubmitError] = useState('');
+    const [loading, setLoading] = useState(false); // 👈 Estado de carga
+    const navigate = useNavigate(); // 👈 Hook para navegar
 
     const tiposDocumento = [
         { value: '', label: 'Selecciona un tipo' },
@@ -86,6 +91,9 @@ export default function Register() {
         setErrors((prev) => ({ ...prev, [name]: error }));
     };
 
+    // ===========================================
+    // 👇 HANDLESUBMIT CON MANEJO DE ERRORES 500
+    // ===========================================
     const handleSubmit = async (e) => {
         e.preventDefault();
         const newErrors = {};
@@ -97,22 +105,18 @@ export default function Register() {
         setSubmitError('');
 
         if (Object.keys(newErrors).length === 0) {
+            setLoading(true);
 
-            // ===========================================
-            // 👇 AQUÍ ESTÁ LA CORRECCIÓN IMPORTANTE
-            // ===========================================
+            // 1. Traduce los campos de React a los de Django
             const jsonData = {
-                first_name: formData.nombre,       // Nombre corregido
-                email: formData.correo,          // Nombre corregido
+                nombre: formData.nombre,       // 👈 Corregido (nombre, no first_name)
+                email: formData.correo,
                 password: formData.contrasena,
                 tipo_documento: formData.tipoDocumento,
                 numero_documento: formData.numeroIdentificacion,
                 direccion: formData.direccion,
                 telefono: formData.telefono,
             };
-            // ===========================================
-            // 👆 FIN DE LA CORRECCIÓN
-            // ===========================================
 
             try {
                 const res = await fetch("http://127.0.0.1:8000/api/usuarios/", {
@@ -121,41 +125,45 @@ export default function Register() {
                     body: JSON.stringify(jsonData),
                 });
 
-                const data = await res.json();
-
+                // 2. Manejo de errores (JSON y no-JSON)
                 if (!res.ok) {
-                    if (data.error) {
-                        setSubmitError(data.error);
-                    } else if (data.numero_documento) {
-                         setSubmitError("El número de documento ya está registrado.");
-                    } else if (data.username) {
-                         setSubmitError("Error de usuario (username duplicado).");
-                    }
-                     else {
-                        setSubmitError("❌ Error al registrar. Verifica los datos.");
-                        console.log("Error del backend:", data);
+                    try {
+                        // Intenta leer el error como JSON (Error 400)
+                        const errorData = await res.json();
+                        if (errorData.error) {
+                            setSubmitError(errorData.error);
+                        } else if (errorData.numero_documento) {
+                            setSubmitError(errorData.numero_documento[0]);
+                        } else if (errorData.nombre) {
+                            setSubmitError(errorData.nombre[0]);
+                        } else if (errorData.email) {
+                            setSubmitError(errorData.email[0]);
+                        } else {
+                            setSubmitError("Error de validación desconocido.");
+                        }
+                    } catch (jsonError) {
+                        // Si falla, es un error 500 (HTML)
+                        setSubmitError("Error 500: El servidor falló. Revisa la terminal de Django.");
                     }
                     return;
                 }
 
+                // 3. Si todo va bien (Respuesta 201)
                 setSubmitSuccess(true);
                 setFormData({
-                    nombre: '',
-                    correo: '',
-                    contrasena: '',
-                    tipoDocumento: '',
-                    numeroIdentificacion: '',
-                    direccion: '',
-                    telefono: '',
+                    nombre: '', correo: '', contrasena: '', tipoDocumento: '',
+                    numeroIdentificacion: '', direccion: '', telefono: '',
                 });
 
                 setTimeout(() => {
-                    window.location.href = "/login";
+                    navigate("/login"); // 👈 Redirige al login
                 }, 2500);
 
             } catch (error) {
                 setSubmitError("❌ Error de conexión con el servidor.");
                 console.error(error);
+            } finally {
+                setLoading(false); // 👈 Deja de cargar
             }
         }
     };
@@ -186,7 +194,6 @@ export default function Register() {
                             initial={{ opacity: 0, scale: 0.8 }}
                             animate={{ opacity: 1, scale: 1 }}
                             exit={{ opacity: 0, scale: 0.8 }}
-                            transition={{ duration: 0.4, type: 'spring', stiffness: 150 }}
                             className="mb-6 p-4 bg-green-100 border border-green-200 rounded-xl flex items-center gap-3 shadow-md"
                         >
                             <CheckCircle className="w-7 h-7 text-green-600" />
@@ -207,7 +214,6 @@ export default function Register() {
                             initial={{ opacity: 0, y: -10 }}
                             animate={{ opacity: 1, y: 0 }}
                             exit={{ opacity: 0, y: -10 }}
-                            transition={{ duration: 0.3 }}
                             className="mb-6 p-4 bg-red-100 border border-red-200 rounded-xl flex items-center gap-3 shadow-md"
                         >
                             <AlertCircle className="w-7 h-7 text-red-600" />
@@ -341,11 +347,12 @@ export default function Register() {
                     <div className="pt-4">
                         <motion.button
                             type="submit"
-                            className="w-full bg-gradient-to-r from-[#1d4ed8] to-[#3b82f6] text-white font-bold py-3 px-6 rounded-lg shadow-lg hover:shadow-xl focus:outline-none focus:ring-4 focus:ring-[#1d4ed8]/50 transition-all duration-300 ease-in-out"
-                            whileHover={{ scale: 1.03 }}
-                            whileTap={{ scale: 0.98 }}
+                            disabled={loading} // 👈 Deshabilitado si está cargando
+                            className="w-full bg-gradient-to-r from-[#1d4ed8] to-[#3b82f6] text-white font-bold py-3 px-6 rounded-lg shadow-lg hover:shadow-xl focus:outline-none focus:ring-4 focus:ring-[#1d4ed8]/50 transition-all duration-300 ease-in-out disabled:opacity-50"
+                            whileHover={{ scale: loading ? 1 : 1.03 }}
+                            whileTap={{ scale: loading ? 1 : 0.98 }}
                         >
-                            Registrarse
+                            {loading ? 'Registrando...' : 'Registrarse'}
                         </motion.button>
                     </div>
 
@@ -353,7 +360,7 @@ export default function Register() {
                     <p className="text-center text-sm text-[#150063]/80 pt-3">
                         ¿Ya tienes una cuenta?{' '}
                         <a
-                            href="/login"
+                            href="/login" // href está bien, o puedes usar Link de react-router-dom
                             className="font-bold text-[#1d4ed8] hover:underline"
                         >
                             Inicia Sesión

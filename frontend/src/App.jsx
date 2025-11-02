@@ -1,7 +1,12 @@
-import LoginPage from "./pages/Login";
+// frontend/src/main.jsx (CÓDIGO CORREGIDO)
 
-function App() {
-  return <LoginPage />;
-}
+import React from 'react'
+import ReactDOM from 'react-dom/client'
+import AppRouter from './AppRouter.jsx' // 👈 Importa tu router
+import './index.css'                      // Importa tus estilos globales
 
-export default App;
+ReactDOM.createRoot(document.getElementById('root')).render(
+  <React.StrictMode>
+    <AppRouter /> {/* 👈 Renderiza tu router */}
+  </React.StrictMode>,
+)

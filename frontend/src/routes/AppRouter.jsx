@@ -1,151 +1,36 @@
+// frontend/src/routes/AppRouter.jsx
+
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
-import { ProtectedRoute } from "../components/ProtectedRoute.jsx";
 
-// --- Importar páginas por actor ---
-// import DashboardAdmin from "../pages/admin/DashboardAdmin";
-// import ConfiguracionSistema from "../pages/admin/ConfiguracionSistema";
-// import Usuarios from "../pages/admin/Usuarios";
-
-// import DashboardEmpresarial from "../pages/administrativo/DashboardEmpresarial";
-// import Reportes from "../pages/administrativo/Reportes";
-// import GestionDatos from "../pages/administrativo/GestionDatos";
-
-// import PanelCajero from "../pages/cajero/PanelCajero";
-// import Transacciones from "../pages/cajero/Transacciones";
-// import HistorialVentas from "../pages/cajero/HistorialVentas";
-
-// import InicioUsuario from "../pages/usuario/InicioUsuario";
-// import PerfilUsuario from "../pages/usuario/PerfilUsuario";
-// import Soporte from "../pages/usuario/Soporte";
-
-import Login from "../pages/Login";
-
-
-import Register from "../pages/Register";
+// --- Importar TODAS las páginas ---
+import LoginPage from "../pages/Login.jsx";
+import RegisterPage from "../pages/Register.jsx";
+import Home from "../pages/Homes.jsx";
+import Rewards from "../pages/Rewards.jsx";
+import Profile from "../pages/Profile.jsx";
+import Historia from "../pages/Historia.jsx";
+import PanelCajero from "../pages/PanelCajero.jsx"; // 👈 AÑADE ESTA LÍNEA
 
 export default function AppRouter() {
     return (
         <Router>
             <Routes>
-                {/* Ruta pública */}
-                <Route path="/" element={<Register />} />
+                {/* Rutas públicas */}
+                <Route path="/login" element={<LoginPage />} />
+                <Route path="/register" element={<RegisterPage />} />
 
-            
-                {/* --- Rutas Admin Ingeniero --- */}
-                {/* <Route path="/admin">
-                    <Route 
-                        index 
-                        element={
-                            <ProtectedRoute allowedRoles={["admin"]}>
-                                <DashboardAdmin />
-                            </ProtectedRoute>
-                        } 
-                    />
-                    <Route 
-                        path="configuracion" 
-                        element={
-                            <ProtectedRoute allowedRoles={["admin"]}>
-                                <ConfiguracionSistema />
-                            </ProtectedRoute>
-                        } 
-                    />
-                    <Route 
-                        path="usuarios" 
-                        element={
-                            <ProtectedRoute allowedRoles={["admin"]}>
-                                <Usuarios />
-                            </ProtectedRoute>
-                        } 
-                    />
-                </Route> */}
+                {/* Rutas de la app (protegidas) */}
+                <Route path="/home" element={<Home />} />
+                <Route path="/rewards" element={<Rewards />} />
+                <Route path="/profile" element={<Profile />} />
+                <Route path="/historia" element={<Historia />} />
 
-                {/* --- Rutas Administrativo de la empresa --- */}
-                {/* <Route path="/administrativo">
-                    <Route 
-                        index 
-                        element={
-                            <ProtectedRoute allowedRoles={["administrativo"]}>
-                                <DashboardEmpresarial />
-                            </ProtectedRoute>
-                        } 
-                    />
-                    <Route 
-                        path="reportes" 
-                        element={
-                            <ProtectedRoute allowedRoles={["administrativo"]}>
-                                <Reportes />
-                            </ProtectedRoute>
-                        } 
-                    />
-                    <Route 
-                        path="gestion-datos" 
-                        element={
-                            <ProtectedRoute allowedRoles={["administrativo"]}>
-                                <GestionDatos />
-                            </ProtectedRoute>
-                        } 
-                    />
-                </Route> */}
+                {/* RUTA DE CAJERO */}
+                <Route path="/cajero" element={<PanelCajero />} /> {/* 👈 AÑADE ESTA LÍNEA */}
 
-                {/* --- Rutas Cajero --- */}
-                {/* <Route path="/cajero">
-                    <Route 
-                        index 
-                        element={
-                            <ProtectedRoute allowedRoles={["cajero"]}>
-                                <PanelCajero />
-                            </ProtectedRoute>
-                        } 
-                    />
-                    <Route 
-                        path="transacciones" 
-                        element={
-                            <ProtectedRoute allowedRoles={["cajero"]}>
-                                <Transacciones />
-                            </ProtectedRoute>
-                        } 
-                    />
-                    <Route 
-                        path="historial" 
-                        element={
-                            <ProtectedRoute allowedRoles={["cajero"]}>
-                                <HistorialVentas />
-                            </ProtectedRoute>
-                        } 
-                    />
-                </Route> */}
-
-                {/* --- Rutas Usuario --- */}
-                {/* <Route path="/usuario">
-                    <Route 
-                        index 
-                        element={
-                            <ProtectedRoute allowedRoles={["usuario"]}>
-                                <InicioUsuario />
-                            </ProtectedRoute>
-                        } 
-                    />
-                    <Route 
-                        path="perfil" 
-                        element={
-                            <ProtectedRoute allowedRoles={["usuario"]}>
-                                <PerfilUsuario />
-                            </ProtectedRoute>
-                        } 
-                    />
-                    <Route 
-                        path="soporte" 
-                        element={
-                            <ProtectedRoute allowedRoles={["usuario"]}>
-                                <Soporte />
-                            </ProtectedRoute>
-                        } 
-                    />
-                </Route> */}
-                    
-
-                {/* Redirección si no existe la ruta */}
-                <Route path="*" element={<Navigate to="/" replace />} />
+                {/* Redirecciones */}
+                <Route path="/" element={<Navigate to="/login" replace />} />
+                <Route path="*" element={<Navigate to="/login" replace />} />
             </Routes>
         </Router>
     );
