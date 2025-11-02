@@ -3,15 +3,16 @@ import { Search, Coffee, Droplets, ShoppingBag, Sparkles, Info } from 'lucide-re
 import Header from '../components/Header.jsx';
 import Footer from '../components/Footer.jsx';
 import CashbackModal from "../components/PuntosModal.jsx";
-
+import RedeemModal from "../components/RedeemModal.jsx";
 
 const Rewards = () => {
     const [activeCategory, setActiveCategory] = useState('all');
     const [showModal, setShowModal] = useState(false);
+    const [showRedeem, setShowRedeem] = useState(false);
     const categories = [
-        { id: 'all', label: 'All', icon: Sparkles },
-        { id: 'food', label: 'Food', icon: Coffee },
-        { id: 'drinks', label: 'Drinks', icon: Droplets },
+        { id: 'all', label: 'Todo', icon: Sparkles },
+        { id: 'food', label: 'Comida', icon: Coffee },
+        { id: 'drinks', label: 'Bebidas', icon: Droplets },
         { id: 'merchandise', label: 'Merchandise', icon: ShoppingBag }
     ];
 
@@ -55,7 +56,7 @@ const Rewards = () => {
         : rewards.filter(r => r.category === activeCategory);
 
     return (
-        <div className="min-h-screen bg-[#eff6ff] pb-8">
+        <div className="min-h-screen bg-[#eff6ff] pb-30">
             {/* Header */}
             <Header
                 pageTitle="Rewards"
@@ -141,8 +142,8 @@ const Rewards = () => {
                                 </p>
 
                                 {/* Redeem Button */}
-                                <button className="w-full bg-[#3b82f6] hover:bg-[#2563eb] text-white py-2.5 rounded-xl font-medium text-sm transition-all duration-300 transform hover:scale-105 active:scale-95 shadow-md hover:shadow-lg">
-                                    Redeem
+                                <button className="w-full bg-[#3b82f6] hover:bg-[#2563eb] text-white py-2.5 rounded-xl font-medium text-sm transition-all duration-300 transform hover:scale-105 active:scale-95 shadow-md hover:shadow-lg" onClick={() => setShowRedeem(true)}>
+                                    Redimir
                                 </button>
                             </div>
                         </div>
@@ -150,6 +151,12 @@ const Rewards = () => {
 
                     <Footer/>
                     <CashbackModal show={showModal} onClose={() => setShowModal(false)} />
+                        <RedeemModal
+                            show={showRedeem}
+                            onClose={() => setShowRedeem(false)}
+                            userPoints={1200}
+                            cost={300}
+                        />
                 </div>
             </div>
 
