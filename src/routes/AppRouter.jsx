@@ -20,144 +20,181 @@ import { ProtectedRoute } from "../components/ProtectedRoute";
 
 import Login from "../pages/Login";
 import Profile from "../pages/Profile";
-
 import Register from "../pages/Register";
-import Home from "../pages/Homes";
+import Homes from "../pages/Homes";
 import Rewards from "../pages/Rewards";
 import AdminHome from "../pages/AdminHome";
 import Historia from "../pages/Historia";
-export default function AppRouter() {
-    return (
-        <Router>
-            <Routes>
-                {/* Ruta pública */}
-                <Route path="/" element={<Register />} />
-                <Route path="/login" element={<Login />} />
-                <Route path="/Home" element={<Home />} />
-                <Route path="/Rewards" element={<Rewards />} />
-                <Route path="/profile" element={<Profile />} />
+import Notificaciones from "../pages/Notificaciones";
 
-                <Route path="/AdminHome" element={<AdminHome />} />
+// 👇 Agregados (sin tocar tus imports existentes)
+import { useLocation } from "react-router-dom";
+import { AnimatePresence, motion } from "framer-motion";
 
-                <Route path="/Historia" element={<Historia />} />
+// Variantes para transiciones de página
+const pageVariants = {
+  initial: { opacity: 0, y: 12, filter: "blur(2px)" },
+  animate: { opacity: 1, y: 0, filter: "blur(0px)" },
+  exit:    { opacity: 0, y: -12, filter: "blur(2px)" },
+};
+const pageTransition = { duration: 0.28, ease: "easeOut" };
 
-            
-                {/* --- Rutas Admin Ingeniero --- */}
-                {/* <Route path="/admin">
-                    <Route 
-                        index 
-                        element={
-                            <ProtectedRoute allowedRoles={["admin"]}>
-                                <DashboardAdmin />
-                            </ProtectedRoute>
-                        } 
-                    />
-                    <Route 
-                        path="configuracion" 
-                        element={
-                            <ProtectedRoute allowedRoles={["admin"]}>
-                                <ConfiguracionSistema />
-                            </ProtectedRoute>
-                        } 
-                    />
-                    <Route 
-                        path="usuarios" 
-                        element={
-                            <ProtectedRoute allowedRoles={["admin"]}>
-                                <Usuarios />
-                            </ProtectedRoute>
-                        } 
-                    />
-                </Route> */}
+// Wrapper para no repetir motion
+function PageTransition({ children }) {
+  return (
+    <motion.div
+      className="min-h-screen"
+      variants={pageVariants}
+      initial="initial"
+      animate="animate"
+      exit="exit"
+      transition={pageTransition}
+    >
+      {children}
+    </motion.div>
+  );
+}
 
-                {/* --- Rutas Administrativo de la empresa --- */}
-                {/* <Route path="/administrativo">
-                    <Route 
-                        index 
-                        element={
-                            <ProtectedRoute allowedRoles={["administrativo"]}>
-                                <DashboardEmpresarial />
-                            </ProtectedRoute>
-                        } 
-                    />
-                    <Route 
-                        path="reportes" 
-                        element={
-                            <ProtectedRoute allowedRoles={["administrativo"]}>
-                                <Reportes />
-                            </ProtectedRoute>
-                        } 
-                    />
-                    <Route 
-                        path="gestion-datos" 
-                        element={
-                            <ProtectedRoute allowedRoles={["administrativo"]}>
-                                <GestionDatos />
-                            </ProtectedRoute>
-                        } 
-                    />
-                </Route> */}
+// Rutas animadas usando location + AnimatePresence
+function AnimatedRoutes() {
+  const location = useLocation();
 
-                {/* --- Rutas Cajero --- */}
-                {/* <Route path="/cajero">
-                    <Route 
-                        index 
-                        element={
-                            <ProtectedRoute allowedRoles={["cajero"]}>
-                                <PanelCajero />
-                            </ProtectedRoute>
-                        } 
-                    />
-                    <Route 
-                        path="transacciones" 
-                        element={
-                            <ProtectedRoute allowedRoles={["cajero"]}>
-                                <Transacciones />
-                            </ProtectedRoute>
-                        } 
-                    />
-                    <Route 
-                        path="historial" 
-                        element={
-                            <ProtectedRoute allowedRoles={["cajero"]}>
-                                <HistorialVentas />
-                            </ProtectedRoute>
-                        } 
-                    />
-                </Route> */}
+  return (
+    <AnimatePresence mode="wait">
+      {/* clave por pathname para detectar cambio de pantalla */}
+      <Routes location={location} key={location.pathname}>
+        {/* Rutas públicas */}
+        <Route path="/register" element={<PageTransition><Register /></PageTransition>} />
+        <Route path="/login" element={<PageTransition><Login /></PageTransition>} />
+        <Route path="/historia" element={<PageTransition><Historia /></PageTransition>} />
+        <Route path="/homes" element={<PageTransition><Homes /></PageTransition>} />
+        <Route path="/rewards" element={<PageTransition><Rewards /></PageTransition>} />
+        <Route path="/profile" element={<PageTransition><Profile /></PageTransition>} />
+        <Route path="/notificaciones" element={<PageTransition><Notificaciones /></PageTransition>} />
+        <Route path="/adminHome" element={<PageTransition><AdminHome /></PageTransition>} />
+        {/* --- Rutas Admin Ingeniero --- */}
+        {/* <Route path="/admin">
+          <Route 
+            index 
+            element={
+              <ProtectedRoute allowedRoles={["admin"]}>
+                <PageTransition><DashboardAdmin /></PageTransition>
+              </ProtectedRoute>
+            } 
+          />
+          <Route 
+            path="configuracion" 
+            element={
+              <ProtectedRoute allowedRoles={["admin"]}>
+                <PageTransition><ConfiguracionSistema /></PageTransition>
+              </ProtectedRoute>
+            } 
+          />
+          <Route 
+            path="usuarios" 
+            element={
+              <ProtectedRoute allowedRoles={["admin"]}>
+                <PageTransition><Usuarios /></PageTransition>
+              </ProtectedRoute>
+            } 
+          />
+        </Route> */}
 
-                {/* --- Rutas Usuario --- */}
-                {/* <Route path="/usuario">
-                    <Route 
-                        index 
-                        element={
-                            <ProtectedRoute allowedRoles={["usuario"]}>
-                                <InicioUsuario />
-                            </ProtectedRoute>
-                        } 
-                    />
-                    <Route 
-                        path="perfil" 
-                        element={
-                            <ProtectedRoute allowedRoles={["usuario"]}>
-                                <PerfilUsuario />
-                            </ProtectedRoute>
-                        } 
-                    />
-                    <Route 
-                        path="soporte" 
-                        element={
-                            <ProtectedRoute allowedRoles={["usuario"]}>
-                                <Soporte />
-                            </ProtectedRoute>
-                        } 
-                    />
-                </Route> */}
-                    
+        {/* --- Rutas Administrativo de la empresa --- */}
+        {/* <Route path="/administrativo">
+          <Route 
+            index 
+            element={
+              <ProtectedRoute allowedRoles={["administrativo"]}>
+                <PageTransition><DashboardEmpresarial /></PageTransition>
+              </ProtectedRoute>
+            } 
+          />
+          <Route 
+            path="reportes" 
+            element={
+              <ProtectedRoute allowedRoles={["administrativo"]}>
+                <PageTransition><Reportes /></PageTransition>
+              </ProtectedRoute>
+            } 
+          />
+          <Route 
+            path="gestion-datos" 
+            element={
+              <ProtectedRoute allowedRoles={["administrativo"]}>
+                <PageTransition><GestionDatos /></PageTransition>
+              </ProtectedRoute>
+            } 
+          />
+        </Route> */}
 
-                {/* Redirección si no existe la ruta */}
-                <Route path="*" element={<Navigate to="/" replace />} />
-            </Routes>
-        </Router>
-    );
+        {/* --- Rutas Cajero --- */}
+        {/* <Route path="/cajero">
+          <Route 
+            index 
+            element={
+              <ProtectedRoute allowedRoles={["cajero"]}>
+                <PageTransition><PanelCajero /></PageTransition>
+              </ProtectedRoute>
+            } 
+          />
+          <Route 
+            path="transacciones" 
+            element={
+              <ProtectedRoute allowedRoles={["cajero"]}>
+                <PageTransition><Transacciones /></PageTransition>
+              </ProtectedRoute>
+            } 
+          />
+          <Route 
+            path="historial" 
+            element={
+              <ProtectedRoute allowedRoles={["cajero"]}>
+                <PageTransition><HistorialVentas /></PageTransition>
+              </ProtectedRoute>
+            } 
+          />
+        </Route> */}
+
+        {/* --- Rutas Usuario --- */}
+        {/* <Route path="/usuario">
+          <Route 
+            index 
+            element={
+              <ProtectedRoute allowedRoles={["usuario"]}>
+                <PageTransition><InicioUsuario /></PageTransition>
+              </ProtectedRoute>
+            } 
+          />
+          <Route 
+            path="perfil" 
+            element={
+              <ProtectedRoute allowedRoles={["usuario"]}>
+                <PageTransition><PerfilUsuario /></PageTransition>
+              </ProtectedRoute>
+            } 
+          />
+          <Route 
+            path="soporte" 
+            element={
+              <ProtectedRoute allowedRoles={["usuario"]}>
+                <PageTransition><Soporte /></PageTransition>
+              </ProtectedRoute>
+            } 
+          />
+        </Route> */}
+
+        {/* Catch-all */}
+        <Route path="*" element={<Navigate to="/" replace />} />
+      </Routes>
+    </AnimatePresence>
+  );
+}
+
+export default function AppRoutes() { 
+  return (
+    <Router> 
+      <AnimatedRoutes />
+    </Router>
+  );
 }
