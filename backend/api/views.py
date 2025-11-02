@@ -1,21 +1,19 @@
-from django.views.decorators.csrf import csrf_exempt
-from django.http import JsonResponse
-import json
+# backend/api/views.py
 
+from rest_framework import viewsets
+from rest_framework.response import Response
+from rest_framework.decorators import api_view
+from .models import Usuario
+from .serializers import UsuarioSerializer
+
+
+# Vista tipo ViewSet (automática para CRUD)
+class UsuarioViewSet(viewsets.ModelViewSet):
+    queryset = Usuario.objects.all()
+    serializer_class = UsuarioSerializer
+
+
+# Vista simple tipo función (para prueba rápida de conexión con el front)
+@api_view(['GET'])
 def ping(request):
-    return JsonResponse({"message": "API funcionando correctamente 🚀"})
-
-
-@csrf_exempt
-def login_view(request):
-    if request.method == "POST":
-        data = json.loads(request.body)
-        documento = data.get("documento")
-        password = data.get("password")
-
-        if documento == "123" and password == "1234":
-            return JsonResponse({"status": "ok", "message": "Login exitoso"})
-        else:
-            return JsonResponse({"status": "error", "message": "Credenciales inválidas"}, status=401)
-
-    return JsonResponse({"error": "Método no permitido"}, status=405)
+    return Response({"message": "✅ API activa y funcionando correctamente"})
