@@ -20,15 +20,18 @@ import { ProtectedRoute } from "../components/ProtectedRoute";
 
 // import Login from "../pages/Login";
 
+import Register from "../pages/Register";
+
 export default function AppRouter() {
     return (
         <Router>
             <Routes>
                 {/* Ruta pública */}
-                <Route path="/" element={<Login />} />
+                <Route path="/" element={<Register />} />
 
+            
                 {/* --- Rutas Admin Ingeniero --- */}
-                <Route path="/admin">
+                {/* <Route path="/admin">
                     <Route 
                         index 
                         element={
@@ -53,10 +56,10 @@ export default function AppRouter() {
                             </ProtectedRoute>
                         } 
                     />
-                </Route>
+                </Route> */}
 
                 {/* --- Rutas Administrativo de la empresa --- */}
-                <Route path="/administrativo">
+                {/* <Route path="/administrativo">
                     <Route 
                         index 
                         element={
@@ -81,10 +84,10 @@ export default function AppRouter() {
                             </ProtectedRoute>
                         } 
                     />
-                </Route>
+                </Route> */}
 
                 {/* --- Rutas Cajero --- */}
-                <Route path="/cajero">
+                {/* <Route path="/cajero">
                     <Route 
                         index 
                         element={
@@ -109,10 +112,10 @@ export default function AppRouter() {
                             </ProtectedRoute>
                         } 
                     />
-                </Route>
+                </Route> */}
 
                 {/* --- Rutas Usuario --- */}
-                <Route path="/usuario">
+                {/* <Route path="/usuario">
                     <Route 
                         index 
                         element={
@@ -137,7 +140,8 @@ export default function AppRouter() {
                             </ProtectedRoute>
                         } 
                     />
-                </Route>
+                </Route> */}
+                    
 
                 {/* Redirección si no existe la ruta */}
                 <Route path="*" element={<Navigate to="/" replace />} />
