@@ -18,7 +18,8 @@ import { ProtectedRoute } from "../components/ProtectedRoute";
 // import PerfilUsuario from "../pages/usuario/PerfilUsuario";
 // import Soporte from "../pages/usuario/Soporte";
 
-// import Login from "../pages/Login";
+import Login from "../pages/Login";
+
 
 import Register from "../pages/Register";
 
