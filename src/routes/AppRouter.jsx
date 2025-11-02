@@ -23,6 +23,7 @@ import Login from "../pages/Login";
 
 import Register from "../pages/Register";
 import Home from "../pages/Homes";
+import Rewards from "../pages/Rewards";
 
 export default function AppRouter() {
     return (
@@ -32,6 +33,7 @@ export default function AppRouter() {
                 <Route path="/" element={<Register />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/Home" element={<Home />} />
+                <Route path="/Rewards" element={<Rewards />} />
             
                 {/* --- Rutas Admin Ingeniero --- */}
                 {/* <Route path="/admin">
