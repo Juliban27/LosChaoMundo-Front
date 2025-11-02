@@ -22,6 +22,7 @@ import Login from "../pages/Login";
 
 
 import Register from "../pages/Register";
+import Home from "../pages/Homes";
 
 export default function AppRouter() {
     return (
@@ -29,7 +30,8 @@ export default function AppRouter() {
             <Routes>
                 {/* Ruta pública */}
                 <Route path="/" element={<Register />} />
-
+                <Route path="/login" element={<Login />} />
+                <Route path="/Home" element={<Home />} />
             
                 {/* --- Rutas Admin Ingeniero --- */}
                 {/* <Route path="/admin">
