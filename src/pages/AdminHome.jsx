@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import HeaderAdmin from "../components/HeaderAdmin.jsx";
+import { useNavigate } from 'react-router-dom';
+
 import {
     TrendingUp,
     ShoppingCart,
@@ -7,6 +9,9 @@ import {
     DollarSign,
     PlusCircle,
     Filter,
+    CheckCircle,
+    AlertTriangle,
+    XCircle,
 } from "lucide-react";
 import {
     ResponsiveContainer,
@@ -21,8 +26,9 @@ import {
     Legend,
 } from "recharts";
 
-export default function AdminHome() {
+export default function Home() {
     const [chartType, setChartType] = useState("line");
+    const navigate = useNavigate();
 
     const data = [
         { name: "Lun", ventas: 2400, transacciones: 320 },
@@ -45,11 +51,9 @@ export default function AdminHome() {
     return (
         <div className="min-h-screen bg-[#f8fafc] text-gray-800 px-6 py-6 md:px-12">
             {/* HEADER */}
-            <HeaderAdmin />
-            <div className="mb-6 pt-15">
-                <h1 className="text-3xl font-bold text-[#001C63]">
-                    Dashboard Global
-                </h1>
+            <HeaderAdmin/>
+            <div className="mb-6 pt-16">
+                <h1 className="text-3xl font-bold text-[#001C63]">Dashboard Global</h1>
             </div>
 
             {/* CARDS DE MÉTRICAS */}
@@ -90,10 +94,7 @@ export default function AdminHome() {
                     >
                         <div className="flex items-center justify-between">
                             <h2 className="font-semibold">{card.title}</h2>
-                            <card.icon
-                                className="w-6 h-6"
-                                style={{ color: card.color }}
-                            />
+                            <card.icon className="w-6 h-6" style={{ color: card.color }} />
                         </div>
                         <p className="text-2xl font-bold mt-2">{card.value}</p>
                         <span
@@ -123,7 +124,6 @@ export default function AdminHome() {
                 </div>
             </div>
 
-            {/* BUSCADOR */}
             <input
                 type="text"
                 placeholder="Buscar punto de venta..."
@@ -172,7 +172,7 @@ export default function AdminHome() {
                         </div>
                         <p className="text-sm text-gray-600">Ventas del día</p>
                         <p className="text-xl font-bold">{store.sales}</p>
-                        <button className="mt-4 bg-[#bfdbfe] text-[#001C63] py-2 rounded-lg hover:bg-[#9ec5ff] transition">
+                        <button className="mt-4 bg-[#bfdbfe] text-[#001C63] py-2 rounded-lg hover:bg-[#9ec5ff] transition" onClick={() => navigate('/detailtienda')}>
                             Ver Detalles
                         </button>
                     </div>
@@ -180,7 +180,7 @@ export default function AdminHome() {
             </div>
 
             {/* SECCIÓN DE GRÁFICAS */}
-            <div className="mt-10 bg-white rounded-xl shadow-md p-6">
+            <div className="mt-10 bg-white rounded-xl shadow-md p-6" id="graficas">
                 <div className="flex justify-between items-center mb-4 flex-wrap gap-2">
                     <h2 className="text-xl font-semibold text-[#001C63]">
                         Análisis de Ventas
@@ -245,6 +245,103 @@ export default function AdminHome() {
                             </PieChart>
                         )}
                     </ResponsiveContainer>
+                </div>
+            </div>
+
+            {/* SECCIÓN DE ACTIVIDAD Y SERVICIOS */}
+            <div className="mt-10 grid grid-cols-1 lg:grid-cols-2 gap-6">
+                {/* ACTIVIDAD RECIENTE */}
+                <div className="bg-white shadow-md rounded-xl p-6">
+                    <h2 className="text-xl font-semibold text-[#001C63] mb-4">
+                        Actividad Reciente
+                    </h2>
+                    <table className="w-full text-left text-gray-700">
+                        <thead>
+                            <tr className="border-b">
+                                <th className="py-2">ID Transacción</th>
+                                <th className="py-2">Punto de Venta</th>
+                                <th className="py-2">Monto</th>
+                                <th className="py-2">Hora</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {[
+                                { id: "#8A34F9", punto: "Sucursal Centro", monto: "$45.50", hora: "14:32" },
+                                { id: "#2B87D1", punto: "Tienda Norte", monto: "$12.00", hora: "14:28" },
+                                { id: "#C5E1A0", punto: "Sucursal Centro", monto: "$89.99", hora: "14:25" },
+                                { id: "#F7B4C6", punto: "Sucursal Centro", monto: "$23.75", hora: "14:19" },
+                                { id: "#9D0F5E", punto: "Tienda Norte", monto: "$5.50", hora: "14:15" },
+                            ].map((tx, i) => (
+                                <tr key={i} className="border-b hover:bg-[#f1f5f9] transition">
+                                    <td className="py-2 font-medium">{tx.id}</td>
+                                    <td className="py-2">{tx.punto}</td>
+                                    <td className="py-2">{tx.monto}</td>
+                                    <td className="py-2">{tx.hora}</td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
+
+                {/* ESTADO DE LOS SERVICIOS */}
+                <div className="bg-white shadow-md rounded-xl p-6">
+                    <h2 className="text-xl font-semibold text-[#001C63] mb-4">
+                        Estado de los Servicios
+                    </h2>
+                    <ul className="space-y-4">
+                        {[
+                            {
+                                name: "API de Pagos",
+                                status: "Operacional",
+                                icon: CheckCircle,
+                                color: "text-green-500",
+                                updated: "hace 2 min",
+                            },
+                            {
+                                name: "Servidor de Autenticación",
+                                status: "Operacional",
+                                icon: CheckCircle,
+                                color: "text-green-500",
+                                updated: "hace 2 min",
+                            },
+                            {
+                                name: "Base de Datos Principal",
+                                status: "Degradado",
+                                icon: AlertTriangle,
+                                color: "text-yellow-500",
+                                updated: "hace 5 min",
+                            },
+                            {
+                                name: "Servicio de Reportes",
+                                status: "Caído",
+                                icon: XCircle,
+                                color: "text-red-500",
+                                updated: "hace 15 min",
+                            },
+                        ].map((srv, i) => (
+                            <li key={i} className="flex items-center justify-between border-b pb-2">
+                                <div>
+                                    <p className="font-medium">{srv.name}</p>
+                                    <p className="text-sm text-gray-500">
+                                        Actualizado {srv.updated}
+                                    </p>
+                                </div>
+                                <div className="flex items-center gap-2">
+                                    <srv.icon className={`w-5 h-5 ${srv.color}`} />
+                                    <span
+                                        className={`font-medium ${srv.status === "Operacional"
+                                                ? "text-green-600"
+                                                : srv.status === "Degradado"
+                                                    ? "text-yellow-600"
+                                                    : "text-red-600"
+                                            }`}
+                                    >
+                                        {srv.status}
+                                    </span>
+                                </div>
+                            </li>
+                        ))}
+                    </ul>
                 </div>
             </div>
         </div>

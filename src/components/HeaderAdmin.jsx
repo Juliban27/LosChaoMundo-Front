@@ -1,5 +1,6 @@
 import React from "react";
 import { Bell, User, Database } from "lucide-react";
+import { Link } from 'react-router-dom';
 
 export default function HeaderAdmin() {
     return (
@@ -17,14 +18,14 @@ export default function HeaderAdmin() {
 
                 {/* NAV LINKS */}
                 <nav className="hidden md:flex items-center gap-8 text-sm font-medium text-gray-600">
-                    <a
-                        href="#"
+                    <Link
+                        to="/AdminHome"
                         className="hover:text-[#1d4ed8] transition-colors duration-200"
                     >
                         Dashboard
-                    </a>
+                    </Link>
                     <a
-                        href="#"
+                        href="#graficas"
                         className="hover:text-[#1d4ed8] transition-colors duration-200"
                     >
                         Reportes
