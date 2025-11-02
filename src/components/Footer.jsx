@@ -7,6 +7,8 @@ export default function Footer() {
     const navigate = useNavigate();
 
     const navItems = [
+
+        { id: 'home', label: 'Home', icon: Home, path: '/homes' },
         { id: 'home', label: 'Home', icon: Home, path: '/Home' },
         { id: 'history', label: 'History', icon: History, path: '/historia' },
         { id: 'rewards', label: 'Rewards', icon: Gift, path: '/rewards' },
