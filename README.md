@@ -5,7 +5,7 @@ Faktora digitaliza la facturación electrónica en Colombia, eliminando el uso d
 ---
 
 ## Demo / Video de presentación
-🔗 *(Pronto)*
+🔗 [*(Video)*](https://www.youtube.com/shorts/tPy7DbnjSHw)
 
 ## PDF de la documentación
 🔗 [Documento.pdf](./Documento.pdf)
@@ -95,6 +95,7 @@ A continuación hay pasos generales; adaptar comandos a la estructura real del r
    - Revisar métricas en Dashboard → Analítica.
 
 ---
+## Link al repositorio de la solución: https://github.com/Juliban27/LosChaoMundo-Front
 - Generar este archivo README.md en el repositorio y abrir un pull request.
 - Crear también archivos complementarios: LICENSE, .gitignore, CONTRIBUTING.md.
 - Adaptar el README con enlaces, screenshots y comandos exactos si me compartes la estructura real del repo o el enlace a la demo.
