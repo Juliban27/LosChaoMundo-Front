@@ -25,6 +25,7 @@ import Register from "../pages/Register";
 import Home from "../pages/Homes";
 import Rewards from "../pages/Rewards";
 import AdminHome from "../pages/AdminHome";
+import DetailTienda from "../pages/DetailTienda";
 
 export default function AppRouter() {
     return (
@@ -37,7 +38,7 @@ export default function AppRouter() {
                 <Route path="/Rewards" element={<Rewards />} />
                 <Route path="/profile" element={<Profile />} />
                 <Route path="/AdminHome" element={<AdminHome />} />
-
+                <Route path="/detailtienda" element={<DetailTienda />} />
             
                 {/* --- Rutas Admin Ingeniero --- */}
                 {/* <Route path="/admin">
