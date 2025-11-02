@@ -14,7 +14,7 @@ export default function Header({
 
   const handleBellClick = () => {
     onNotificationClick();
-    navigate('/Notificaciones');
+    navigate('/notificaciones');  
   };
 
   return (
