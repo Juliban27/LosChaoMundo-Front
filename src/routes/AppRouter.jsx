@@ -24,7 +24,24 @@ import Register from "../pages/Register";
 import Homes from "../pages/Homes";
 import Rewards from "../pages/Rewards";
 import AdminHome from "../pages/AdminHome";
+
+
+import DetailTienda from "../pages/DetailTienda";
 import Historia from "../pages/Historia";
+export default function AppRouter() {
+    return (
+        <Router>
+            <Routes>
+                {/* Ruta pública */}
+                <Route path="/" element={<Register />} />
+                <Route path="/login" element={<Login />} />
+                <Route path="/Home" element={<Home />} />
+                <Route path="/Rewards" element={<Rewards />} />
+                <Route path="/profile" element={<Profile />} />
+
+                <Route path="/AdminHome" element={<AdminHome />} />
+                <Route path="/detailtienda" element={<DetailTienda />} />
+
 import Notificaciones from "../pages/Notificaciones";
 import NotificacionesAdmin from "../pages/NotificacionesAdmin";
 
@@ -57,7 +74,6 @@ function PageTransition({ children }) {
 // Rutas animadas usando location + AnimatePresence
 function AnimatedRoutes() {
   const location = useLocation();
-
   return (
     <AnimatePresence mode="wait">
       {/* clave por pathname para detectar cambio de pantalla */}
@@ -100,89 +116,7 @@ function AnimatedRoutes() {
           />
         </Route> */}
 
-        {/* --- Rutas Administrativo de la empresa --- */}
-        {/* <Route path="/administrativo">
-          <Route 
-            index 
-            element={
-              <ProtectedRoute allowedRoles={["administrativo"]}>
-                <PageTransition><DashboardEmpresarial /></PageTransition>
-              </ProtectedRoute>
-            } 
-          />
-          <Route 
-            path="reportes" 
-            element={
-              <ProtectedRoute allowedRoles={["administrativo"]}>
-                <PageTransition><Reportes /></PageTransition>
-              </ProtectedRoute>
-            } 
-          />
-          <Route 
-            path="gestion-datos" 
-            element={
-              <ProtectedRoute allowedRoles={["administrativo"]}>
-                <PageTransition><GestionDatos /></PageTransition>
-              </ProtectedRoute>
-            } 
-          />
-        </Route> */}
 
-        {/* --- Rutas Cajero --- */}
-        {/* <Route path="/cajero">
-          <Route 
-            index 
-            element={
-              <ProtectedRoute allowedRoles={["cajero"]}>
-                <PageTransition><PanelCajero /></PageTransition>
-              </ProtectedRoute>
-            } 
-          />
-          <Route 
-            path="transacciones" 
-            element={
-              <ProtectedRoute allowedRoles={["cajero"]}>
-                <PageTransition><Transacciones /></PageTransition>
-              </ProtectedRoute>
-            } 
-          />
-          <Route 
-            path="historial" 
-            element={
-              <ProtectedRoute allowedRoles={["cajero"]}>
-                <PageTransition><HistorialVentas /></PageTransition>
-              </ProtectedRoute>
-            } 
-          />
-        </Route> */}
-
-        {/* --- Rutas Usuario --- */}
-        {/* <Route path="/usuario">
-          <Route 
-            index 
-            element={
-              <ProtectedRoute allowedRoles={["usuario"]}>
-                <PageTransition><InicioUsuario /></PageTransition>
-              </ProtectedRoute>
-            } 
-          />
-          <Route 
-            path="perfil" 
-            element={
-              <ProtectedRoute allowedRoles={["usuario"]}>
-                <PageTransition><PerfilUsuario /></PageTransition>
-              </ProtectedRoute>
-            } 
-          />
-          <Route 
-            path="soporte" 
-            element={
-              <ProtectedRoute allowedRoles={["usuario"]}>
-                <PageTransition><Soporte /></PageTransition>
-              </ProtectedRoute>
-            } 
-          />
-        </Route> */}
 
         {/* Catch-all */}
         <Route path="*" element={<Navigate to="/" replace />} />

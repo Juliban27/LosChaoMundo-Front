@@ -1,5 +1,6 @@
 import React from "react";
 import { Bell, User, Database } from "lucide-react";
+import { Link } from 'react-router-dom';
 
 export default function HeaderAdmin() {
   return (
@@ -17,23 +18,38 @@ export default function HeaderAdmin() {
 
         {/* NAV LINKS */}
         <nav className="hidden md:flex items-center gap-8 text-sm font-medium text-gray-600">
-          <a href="#" className="hover:text-[#1d4ed8] transition-colors duration-200">Dashboard</a>
-          <a href="#" className="hover:text-[#1d4ed8] transition-colors duration-200">Reportes</a>
-          <a href="#" className="hover:text-[#1d4ed8] transition-colors duration-200">Configuración</a>
+          <Link
+            to="/AdminHome"
+            className="hover:text-[#1d4ed8] transition-colors duration-200"
+          >
+            Dashboard
+          </Link>
+          <a
+            href="#graficas"
+            className="hover:text-[#1d4ed8] transition-colors duration-200"
+          >
+            Reportes
+          </a>
+          <a
+            href="#"
+            className="hover:text-[#1d4ed8] transition-colors duration-200"
+          >
+            Configuración
+          </a>
         </nav>
 
         {/* ICONOS DERECHA */}
         <div className="flex items-center gap-3">
-          {/* 👉 Ahora navega a /notificacionesAdmin */}
-          <a
-            href="/notificacionesAdmin"
+          {/* Campana → /notificacionesAdmin (SPA) */}
+          <Link
+            to="/notificacionesAdmin"
             className="relative hover:bg-[#e0edff] p-2 rounded-full transition-colors"
             aria-label="Ir a notificaciones"
             title="Notificaciones"
           >
             <Bell className="text-[#001C63] w-5 h-5" />
             <span className="absolute top-1.5 right-1.5 block w-2 h-2 bg-[#f97316] rounded-full"></span>
-          </a>
+          </Link>
 
           <button className="w-8 h-8 rounded-full bg-[#facc15]/30 hover:bg-[#facc15]/60 transition-all flex items-center justify-center">
             <User className="text-[#004E63] w-5 h-5" />
@@ -50,3 +66,4 @@ export default function HeaderAdmin() {
     </header>
   );
 }
+
