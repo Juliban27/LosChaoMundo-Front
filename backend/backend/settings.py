@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'api',
     'corsheaders',
+    'rest_framework_simplejwt',
     'django.contrib.staticfiles',
 ]
 
@@ -126,3 +127,18 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# 👇 Añade este bloque al final del archivo
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ),
+}
+
+# (Opcional pero recomendado) Configurar la duración de los tokens
+from datetime import timedelta
+
+SIMPLE_JWT = {
+    "ACCESS_TOKEN_LIFETIME": timedelta(hours=1), # Duración del token principal
+    "REFRESH_TOKEN_LIFETIME": timedelta(days=1), # Duración del token para "refrescar" el principal
+}

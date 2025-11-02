@@ -12,10 +12,8 @@ import {
     AlertCircle,
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { useNavigate } from 'react-router-dom';
 
 export default function Register() {
-    const navigate = useNavigate();
     const [formData, setFormData] = useState({
         nombre: '',
         correo: '',
@@ -29,6 +27,7 @@ export default function Register() {
     const [errors, setErrors] = useState({});
     const [showPassword, setShowPassword] = useState(false);
     const [submitSuccess, setSubmitSuccess] = useState(false);
+    const [submitError, setSubmitError] = useState('');
 
     const tiposDocumento = [
         { value: '', label: 'Selecciona un tipo' },
@@ -39,7 +38,6 @@ export default function Register() {
         { value: 'NIT', label: 'NIT' },
     ];
 
-    // ✅ Validaciones
     const validateField = (name, value) => {
         let error = '';
         switch (name) {
@@ -81,7 +79,6 @@ export default function Register() {
         return error;
     };
 
-    // ✅ Manejo de cambios
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData((prev) => ({ ...prev, [name]: value }));
@@ -89,7 +86,6 @@ export default function Register() {
         setErrors((prev) => ({ ...prev, [name]: error }));
     };
 
-    // ✅ Envío al backend
     const handleSubmit = async (e) => {
         e.preventDefault();
         const newErrors = {};
@@ -98,36 +94,55 @@ export default function Register() {
             if (error) newErrors[key] = error;
         });
         setErrors(newErrors);
+        setSubmitError('');
 
         if (Object.keys(newErrors).length === 0) {
             const jsonData = {
-                username: formData.nombre.trim().replace(/\s+/g, "_").toLowerCase(),
-                email: formData.correo,
+                nombre: formData.nombre,
+                correo: formData.correo,
                 password: formData.contrasena,
-                rol: "cliente",
+                tipo_documento: formData.tipoDocumento,
+                numero_documento: formData.numeroIdentificacion,
+                direccion: formData.direccion,
+                telefono: formData.telefono,
             };
 
             try {
-                const response = await fetch("http://127.0.0.1:8000/api/usuarios/", {
+                const res = await fetch("http://127.0.0.1:8000/api/usuarios/", {
                     method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
+                    headers: { "Content-Type": "application/json" },
                     body: JSON.stringify(jsonData),
                 });
 
-                if (response.ok) {
-                    console.log("✅ Usuario creado correctamente");
-                    setSubmitSuccess(true);
-                    setTimeout(() => navigate("/"), 2500);
-                } else {
-                    const errorData = await response.json();
-                    console.error("❌ Error al registrar:", errorData);
-                    alert("No se pudo registrar. Verifica los datos.");
+                const data = await res.json();
+
+                if (!res.ok) {
+                    if (data.error) {
+                        setSubmitError(data.error);
+                    } else {
+                        setSubmitError("❌ Error al registrar. Verifica los datos.");
+                    }
+                    return;
                 }
-            } catch (err) {
-                console.error("❌ Error de conexión:", err);
-                alert("Error de conexión con el servidor.");
+
+                setSubmitSuccess(true);
+                setFormData({
+                    nombre: '',
+                    correo: '',
+                    contrasena: '',
+                    tipoDocumento: '',
+                    numeroIdentificacion: '',
+                    direccion: '',
+                    telefono: '',
+                });
+
+                setTimeout(() => {
+                    window.location.href = "/login";
+                }, 2500);
+
+            } catch (error) {
+                setSubmitError("❌ Error de conexión con el servidor.");
+                console.error(error);
             }
         }
     };
@@ -135,6 +150,7 @@ export default function Register() {
     return (
         <div className="min-h-screen flex items-center justify-center bg-[#9ec5ff] p-4">
             <div className="w-full max-w-md bg-[#e0edff] rounded-3xl shadow-2xl p-6 sm:p-8 relative overflow-hidden">
+                <div className="absolute inset-0 bg-gradient-to-br from-[#9ec5ff]/20 via-transparent to-[#150063]/10 blur-2xl"></div>
 
                 {/* Header */}
                 <div className="relative text-center mb-8">
@@ -149,7 +165,7 @@ export default function Register() {
                     </p>
                 </div>
 
-                {/* ✅ Mensaje de éxito */}
+                {/* Mensajes de éxito o error */}
                 <AnimatePresence>
                     {submitSuccess && (
                         <motion.div
@@ -157,17 +173,35 @@ export default function Register() {
                             initial={{ opacity: 0, scale: 0.8 }}
                             animate={{ opacity: 1, scale: 1 }}
                             exit={{ opacity: 0, scale: 0.8 }}
-                            transition={{
-                                duration: 0.4,
-                                type: 'spring',
-                                stiffness: 150,
-                            }}
+                            transition={{ duration: 0.4, type: 'spring', stiffness: 150 }}
                             className="mb-6 p-4 bg-green-100 border border-green-200 rounded-xl flex items-center gap-3 shadow-md"
                         >
                             <CheckCircle className="w-7 h-7 text-green-600" />
-                            <p className="text-green-800 font-semibold">
-                                ¡Registro exitoso! Redirigiendo al inicio...
-                            </p>
+                            <div>
+                                <p className="text-green-800 font-semibold">
+                                    ¡Registro exitoso!
+                                </p>
+                                <p className="text-green-700 text-sm">
+                                    Redirigiendo al login...
+                                </p>
+                            </div>
+                        </motion.div>
+                    )}
+
+                    {submitError && (
+                        <motion.div
+                            key="error"
+                            initial={{ opacity: 0, y: -10 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            exit={{ opacity: 0, y: -10 }}
+                            transition={{ duration: 0.3 }}
+                            className="mb-6 p-4 bg-red-100 border border-red-200 rounded-xl flex items-center gap-3 shadow-md"
+                        >
+                            <AlertCircle className="w-7 h-7 text-red-600" />
+                            <div>
+                                <p className="text-red-800 font-semibold">Error</p>
+                                <p className="text-red-700 text-sm">{submitError}</p>
+                            </div>
                         </motion.div>
                     )}
                 </AnimatePresence>
@@ -175,13 +209,56 @@ export default function Register() {
                 {/* Formulario */}
                 <form onSubmit={handleSubmit} className="space-y-5 relative">
                     {[
-                        { label: 'Nombre Completo', name: 'nombre', icon: User, type: 'text', placeholder: 'Juan Pérez' },
-                        { label: 'Correo Electrónico', name: 'correo', icon: Mail, type: 'email', placeholder: 'correo@ejemplo.com' },
-                        { label: 'Contraseña', name: 'contrasena', icon: Lock, type: showPassword ? 'text' : 'password', placeholder: 'Mínimo 6 caracteres', showPasswordToggle: true },
-                        { label: 'Tipo de Documento', name: 'tipoDocumento', icon: CreditCard, type: 'select', options: tiposDocumento },
-                        { label: 'Número de Identificación', name: 'numeroIdentificacion', icon: CreditCard, type: 'text', placeholder: '123456789' },
-                        { label: 'Dirección', name: 'direccion', icon: MapPin, type: 'text', placeholder: 'Calle 123 #45-67' },
-                        { label: 'Teléfono', name: 'telefono', icon: Phone, type: 'tel', placeholder: '3001234567' },
+                        {
+                            label: 'Nombre Completo',
+                            name: 'nombre',
+                            icon: User,
+                            type: 'text',
+                            placeholder: 'Juan Pérez',
+                        },
+                        {
+                            label: 'Correo Electrónico',
+                            name: 'correo',
+                            icon: Mail,
+                            type: 'email',
+                            placeholder: 'correo@ejemplo.com',
+                        },
+                        {
+                            label: 'Contraseña',
+                            name: 'contrasena',
+                            icon: Lock,
+                            type: showPassword ? 'text' : 'password',
+                            placeholder: 'Mínimo 6 caracteres',
+                            showPasswordToggle: true,
+                        },
+                        {
+                            label: 'Tipo de Documento',
+                            name: 'tipoDocumento',
+                            icon: CreditCard,
+                            type: 'select',
+                            options: tiposDocumento,
+                        },
+                        {
+                            label: 'Número de Identificación',
+                            name: 'numeroIdentificacion',
+                            icon: CreditCard,
+                            type: 'text',
+                            placeholder: '123456789',
+                        },
+                        {
+                            label: 'Dirección',
+                            name: 'direccion',
+                            icon: MapPin,
+                            type: 'text',
+                            placeholder: 'Calle 123 #45-67',
+                        },
+                        {
+                            label: 'Teléfono',
+                            name: 'telefono',
+                            icon: Phone,
+                            type: 'tel',
+                            placeholder: '3001234567',
+                        },
                     ].map((field) => (
                         <div key={field.name}>
                             <label className="block text-sm font-semibold text-[#150063] mb-2">
@@ -194,10 +271,11 @@ export default function Register() {
                                         name={field.name}
                                         value={formData[field.name]}
                                         onChange={handleChange}
-                                        className={`w-full pl-11 pr-4 py-3 rounded-lg border transition-all duration-200 bg-[#e0edff] focus:ring-2 focus:ring-[#1d4ed8]/60 ${errors[field.name]
-                                            ? 'border-red-300 focus:ring-red-500'
-                                            : 'border-[#b2c9ff]'
-                                            }`}
+                                        className={`w-full pl-11 pr-4 py-3 rounded-lg border bg-[#e0edff] transition-all duration-200 focus:ring-2 focus:ring-[#1d4ed8]/60 ${
+                                            errors[field.name]
+                                                ? 'border-red-300 focus:ring-red-500'
+                                                : 'border-[#b2c9ff]'
+                                        }`}
                                     >
                                         {field.options.map((opt) => (
                                             <option key={opt.value} value={opt.value}>
@@ -212,10 +290,11 @@ export default function Register() {
                                         value={formData[field.name]}
                                         onChange={handleChange}
                                         placeholder={field.placeholder}
-                                        className={`w-full pl-11 pr-12 py-3 rounded-lg border transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-[#1d4ed8]/60 ${errors[field.name]
-                                            ? 'border-red-300 focus:ring-red-500'
-                                            : 'border-[#b2c9ff]'
-                                            }`}
+                                        className={`w-full pl-11 pr-12 py-3 rounded-lg border transition-all duration-200 focus:ring-2 focus:ring-[#1d4ed8]/60 ${
+                                            errors[field.name]
+                                                ? 'border-red-300 focus:ring-red-500'
+                                                : 'border-[#b2c9ff]'
+                                        }`}
                                     />
                                 )}
                                 {field.showPasswordToggle && (
@@ -250,13 +329,12 @@ export default function Register() {
 
                     <p className="text-center text-sm text-[#1d4ed8]/80 mt-4">
                         ¿Ya tienes cuenta?{' '}
-                        <button
-                            type="button"
-                            onClick={() => navigate("/")}
+                        <a
+                            href="/login"
                             className="font-medium text-[#150063] hover:underline"
                         >
                             Inicia sesión
-                        </button>
+                        </a>
                     </p>
                 </form>
 

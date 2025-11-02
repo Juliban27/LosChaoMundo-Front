@@ -42,7 +42,7 @@ class Empresa(models.Model):
 # MODELO FACTURA
 # ===========================================
 class Factura(models.Model):
-    usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE, related_name='facturas')
+    usuario = None
     empresa = models.ForeignKey(Empresa, on_delete=models.CASCADE, related_name='facturas')
     numero_factura = models.CharField(max_length=50)
     fecha = models.DateTimeField()
