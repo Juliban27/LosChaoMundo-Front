@@ -20,11 +20,11 @@ import { ProtectedRoute } from "../components/ProtectedRoute";
 
 import Login from "../pages/Login";
 import Profile from "../pages/Profile";
-
 import Register from "../pages/Register";
-import Home from "../pages/Homes";
+import Homes from "../pages/Homes";
 import Rewards from "../pages/Rewards";
 import Historia from "../pages/Historia";
+import Notificaciones from "../pages/Notificaciones";
 
 // 👇 Agregados (sin tocar tus imports existentes)
 import { useLocation } from "react-router-dom";
@@ -63,11 +63,13 @@ function AnimatedRoutes() {
       {/* clave por pathname para detectar cambio de pantalla */}
       <Routes location={location} key={location.pathname}>
         {/* Rutas públicas */}
-        <Route path="/" element={<PageTransition><Register /></PageTransition>} />
+        <Route path="/register" element={<PageTransition><Register /></PageTransition>} />
         <Route path="/login" element={<PageTransition><Login /></PageTransition>} />
-        <Route path="/Home" element={<PageTransition><Home /></PageTransition>} />
-        <Route path="/Rewards" element={<PageTransition><Rewards /></PageTransition>} />
+        <Route path="/historia" element={<PageTransition><Historia /></PageTransition>} />
+        <Route path="/homes" element={<PageTransition><Homes /></PageTransition>} />
+        <Route path="/rewards" element={<PageTransition><Rewards /></PageTransition>} />
         <Route path="/profile" element={<PageTransition><Profile /></PageTransition>} />
+        <Route path="/notificaciones" element={<PageTransition><Notificaciones /></PageTransition>} />
 
         {/* --- Rutas Admin Ingeniero --- */}
         {/* <Route path="/admin">
@@ -188,9 +190,9 @@ function AnimatedRoutes() {
   );
 }
 
-export default function AppRoutes() {   {/* 👈 coincide con el nombre del stack */}
+export default function AppRoutes() { 
   return (
-    <Router> {/* 👈 usar el alias, NO <BrowserRouter> */}
+    <Router> 
       <AnimatedRoutes />
     </Router>
   );
