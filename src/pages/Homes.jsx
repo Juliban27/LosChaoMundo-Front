@@ -20,7 +20,7 @@ export default function Homes() {
     const qrCodeUrl = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(`USER_ID:${userData.id}`)}`;
 
     return (
-        <div className="min-h-screen bg-gradient-to-b from-[#001C63] to-[#150063] flex flex-col">
+        <div className="min-h-screen bg-linear-to-b from-[#001C63] to-[#150063] flex flex-col">
             {/* Header fijo */}
             <Header
                 pageTitle="Mi Página"
@@ -31,7 +31,7 @@ export default function Homes() {
             {/* Contenido con espacio inferior para el footer */}
             <main className="flex-1 w-full max-w-md mx-auto p-4 pb-24">
                 {/* Tarjeta QR */}
-                <div className="bg-gradient-to-br from-[#1d4ed8] to-[#2563eb] rounded-3xl p-6 shadow-2xl mb-6">
+                <div className="bg-linear-to-br from-[#1d4ed8] to-[#2563eb] rounded-3xl p-6 shadow-2xl mb-6">
                     <div className="bg-white rounded-2xl p-4 mb-4 shadow-lg">
                         <div className="bg-[#004E63] rounded-xl p-6 flex items-center justify-center">
                             <div className="bg-white p-3 rounded-xl shadow-inner">
