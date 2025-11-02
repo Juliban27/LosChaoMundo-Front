@@ -1,15 +1,19 @@
 # Faktora
 
-Faktora digitaliza la facturación electrónica en Colombia, eliminando el uso de papel térmico y reduciendo su contaminación. Permite generar facturas mediante QR o cédula, incorpora el sistema de fidelización "Puntos Garza" que premia cada compra, y ofrece un dashboard de analítica para optimizar estrategias comerciales.
+Faktora digitaliza la facturación electrónica en Colombia, eliminando el uso de papel térmico y reduciendo su contaminación. Permite generar facturas mediante **QR** o **cédula**, incorpora el sistema de fidelización **Puntos Garza** que premia cada compra, y ofrece un **dashboard de analítica** para optimizar estrategias comerciales.
 
 ---
 
 ## Demo / Video de presentación
-🔗 (Inserta aquí el enlace al video o demo del proyecto)
-## PDF de la documentacion
-🔗 (Inserta aquí el enlace al video o demo del proyecto)
-## Link de la presentacion
-🔗 (Inserta aquí el enlace al video o demo del proyecto)
+🔗 *(Pronto)*
+
+## PDF de la documentación
+🔗 [Documento.pdf](./Documento.pdf)
+
+## Link de la presentación
+🔗 [Presentación en Canva](https://www.canva.com/design/DAG3hYRBWok/gFSUYeWAFK9l4Jdwr-KY1A/edit?utm_content=DAG3hYRBWok&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton)
+
+---
 
 ---
 
