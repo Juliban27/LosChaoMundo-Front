@@ -6,7 +6,7 @@ import AppRouter from './AppRouter.jsx' // 👈 Importa tu router
 import './index.css'                      // Importa tus estilos globales
 
 ReactDOM.createRoot(document.getElementById('root')).render(
-  <React.StrictMode>
+  <React>
     <AppRouter /> {/* 👈 Renderiza tu router */}
-  </React.StrictMode>,
+  </React>,
 )
